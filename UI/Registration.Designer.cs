@@ -32,11 +32,12 @@
             txtNewPassword = new TextBox();
             txtConfirmPassword = new TextBox();
             txtEmail = new TextBox();
-            button1 = new Button();
+            btnRegister = new Button();
             label1 = new Label();
             label2 = new Label();
             label3 = new Label();
             label4 = new Label();
+            btnCancel = new Button();
             SuspendLayout();
             // 
             // txtNewUsername
@@ -67,14 +68,15 @@
             txtEmail.Size = new Size(125, 27);
             txtEmail.TabIndex = 3;
             // 
-            // button1
+            // btnRegister
             // 
-            button1.Location = new Point(308, 322);
-            button1.Name = "button1";
-            button1.Size = new Size(94, 29);
-            button1.TabIndex = 4;
-            button1.Text = "btnRegister";
-            button1.UseVisualStyleBackColor = true;
+            btnRegister.Location = new Point(278, 322);
+            btnRegister.Name = "btnRegister";
+            btnRegister.Size = new Size(153, 35);
+            btnRegister.TabIndex = 4;
+            btnRegister.Text = "Зареєструватися";
+            btnRegister.UseVisualStyleBackColor = true;
+            btnRegister.Click += btnRegister_Click;
             // 
             // label1
             // 
@@ -112,16 +114,27 @@
             label4.TabIndex = 8;
             label4.Text = "Email:";
             // 
+            // btnCancel
+            // 
+            btnCancel.Location = new Point(718, -3);
+            btnCancel.Name = "btnCancel";
+            btnCancel.Size = new Size(81, 30);
+            btnCancel.TabIndex = 9;
+            btnCancel.Text = "Вийти";
+            btnCancel.UseVisualStyleBackColor = true;
+            btnCancel.Click += btnCancel_Click;
+            // 
             // Registration
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(btnCancel);
             Controls.Add(label4);
             Controls.Add(label3);
             Controls.Add(label2);
             Controls.Add(label1);
-            Controls.Add(button1);
+            Controls.Add(btnRegister);
             Controls.Add(txtEmail);
             Controls.Add(txtConfirmPassword);
             Controls.Add(txtNewPassword);
@@ -138,10 +151,11 @@
         private TextBox txtNewPassword;
         private TextBox txtConfirmPassword;
         private TextBox txtEmail;
-        private Button button1;
+        private Button btnRegister;
         private Label label1;
         private Label label2;
         private Label label3;
         private Label label4;
+        private Button btnCancel;
     }
 }

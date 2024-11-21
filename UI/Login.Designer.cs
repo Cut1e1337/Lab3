@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            button1 = new Button();
+            btnLogin = new Button();
             txtUsername = new TextBox();
             txtPassword = new TextBox();
             label1 = new Label();
@@ -36,14 +36,15 @@
             label2 = new Label();
             SuspendLayout();
             // 
-            // button1
+            // btnLogin
             // 
-            button1.Location = new Point(325, 228);
-            button1.Name = "button1";
-            button1.Size = new Size(94, 29);
-            button1.TabIndex = 0;
-            button1.Text = "Увійти";
-            button1.UseVisualStyleBackColor = true;
+            btnLogin.Location = new Point(325, 228);
+            btnLogin.Name = "btnLogin";
+            btnLogin.Size = new Size(94, 29);
+            btnLogin.TabIndex = 0;
+            btnLogin.Text = "Увійти";
+            btnLogin.UseVisualStyleBackColor = true;
+            btnLogin.Click += btnLogin_Click;
             // 
             // txtUsername
             // 
@@ -98,7 +99,7 @@
             Controls.Add(label1);
             Controls.Add(txtPassword);
             Controls.Add(txtUsername);
-            Controls.Add(button1);
+            Controls.Add(btnLogin);
             Name = "Login";
             Text = "Login";
             ResumeLayout(false);
@@ -107,7 +108,7 @@
 
         #endregion
 
-        private Button button1;
+        private Button btnLogin;
         private TextBox txtUsername;
         private TextBox txtPassword;
         private Label label1;
