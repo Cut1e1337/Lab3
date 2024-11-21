@@ -1,15 +1,10 @@
-﻿using Repositories.Repository;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
+﻿using System;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Repositories;
 using Core.Models;
+using lab3.Repositories.Data;
+using Repositories.Repository;
 
 namespace UI
 {
@@ -17,9 +12,9 @@ namespace UI
     {
         private readonly IGenericRepository<User> _userRepository;
 
-        public Login(IGenericRepository<User> userRepository)
+        public Login()
         {
-            _userRepository = userRepository;
+            _userRepository = new GenericRepository<User>(new AppDbContext());  // Ініціалізація репозиторію без параметрів
             InitializeComponent();
         }
 
@@ -34,6 +29,7 @@ namespace UI
             string username = txtUsername.Text;
             string password = txtPassword.Text;
 
+            // Перевірка логіна і пароля
             var user = _userRepository.GetAll().FirstOrDefault(u => u.Username == username && u.PasswordHash == password);
 
             if (user != null)

@@ -1,25 +1,24 @@
-﻿using Repositories.Repository;
-using System;
+﻿using System;
 using System.Linq;
 using System.Windows.Forms;
 using Repositories;
 using Core.Models;
-using Microsoft.EntityFrameworkCore;
 using lab3.Repositories.Data;
+using Repositories.Repository;
 
 namespace UI
 {
     public partial class Registration : Form
     {
-        private readonly IGenericRepository<User> _userRepository; // Репозиторій для користувачів
-        private readonly IGenericRepository<UserRole> _userRoleRepository; // Репозиторій для ролей користувачів
-        private readonly AppDbContext _dbContext; // Контекст бази даних для виклику SaveChanges
+        private readonly IGenericRepository<User> _userRepository;
+        private readonly IGenericRepository<UserRole> _userRoleRepository;
+        private readonly AppDbContext _dbContext;
 
-        public Registration(IGenericRepository<User> userRepository, IGenericRepository<UserRole> userRoleRepository, AppDbContext dbContext)
+        public Registration()
         {
-            _userRepository = userRepository;
-            _userRoleRepository = userRoleRepository;
-            _dbContext = dbContext; // Ініціалізація контексту
+            _userRepository = new GenericRepository<User>(new AppDbContext());  // Ініціалізація репозиторію без параметрів
+            _userRoleRepository = new GenericRepository<UserRole>(new AppDbContext());  // Ініціалізація репозиторію ролей
+            _dbContext = new AppDbContext();  // Ініціалізація контексту
             InitializeComponent();
         }
 
@@ -30,28 +29,28 @@ namespace UI
             string confirmPassword = txtConfirmPassword.Text;
             string email = txtEmail.Text;
 
-            // Перевірка, чи всі поля заповнені
+            // Перевірка на заповненість полів
             if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password) || string.IsNullOrEmpty(confirmPassword) || string.IsNullOrEmpty(email))
             {
                 MessageBox.Show("Будь ласка, заповніть всі поля.");
                 return;
             }
 
-            // Перевірка, чи паролі збігаються
+            // Перевірка паролів
             if (password != confirmPassword)
             {
                 MessageBox.Show("Паролі не співпадають.");
                 return;
             }
 
-            // Перевірка формату електронної пошти
+            // Перевірка електронної пошти
             if (!email.Contains("@") || !email.Contains("."))
             {
                 MessageBox.Show("Будь ласка, введіть правильну електронну пошту.");
                 return;
             }
 
-            // Перевірка, чи існує користувач з таким логіном або email
+            // Перевірка на існування користувача з таким логіном або email
             var existingUser = _userRepository.GetAll().FirstOrDefault(u => u.Username == username || u.Email == email);
             if (existingUser != null)
             {
@@ -59,7 +58,7 @@ namespace UI
                 return;
             }
 
-            // Отримуємо RoleID для ролі "User"
+            // Отримуємо роль "User"
             var userRole = _userRoleRepository.GetAll().FirstOrDefault(r => r.RoleName == "User");
             if (userRole == null)
             {
@@ -77,14 +76,14 @@ namespace UI
                 IsAdmin = false // Вказуємо, що це не адмін
             };
 
-            // Додавання нового користувача в репозиторій
+            // Додавання нового користувача
             _userRepository.Add(newUser);
             _dbContext.SaveChanges(); // Збереження змін через контекст
 
             MessageBox.Show("Реєстрація успішна!");
 
-            // Переходимо до форми логіну
-            Login loginForm = new Login(_userRepository);
+            // Перехід до форми логіну
+            Login loginForm = new Login();
             loginForm.Show();
             this.Hide();
         }
@@ -92,7 +91,7 @@ namespace UI
         private void btnCancel_Click(object sender, EventArgs e)
         {
             // Повернення до форми логіну
-            Login loginForm = new Login(_userRepository);
+            Login loginForm = new Login();
             loginForm.Show();
             this.Hide();
         }
