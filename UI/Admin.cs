@@ -22,7 +22,7 @@ namespace UI
         public Admin()
         {
             _dbContext = new AppDbContext();  // Ініціалізація контексту бази даних
-            _appRepository = new GenericRepository<Application>(_dbContext);
+            _appRepository = new GenericRepository<Core.Models.Application>(_dbContext);
             _categoryRepository = new GenericRepository<Category>(_dbContext);
             _contentRatingRepository = new GenericRepository<ContentRating>(_dbContext);
             _genreRepository = new GenericRepository<Genre>(_dbContext);
@@ -87,7 +87,7 @@ namespace UI
                 return;
             }
 
-            var newApp = new Application
+            var newApp = new Core.Models.Application
             {
                 Name = txtAppName.Text,
                 CategoryID = (int)cmbCategory.SelectedValue,
