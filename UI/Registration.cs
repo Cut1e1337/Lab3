@@ -16,9 +16,9 @@ namespace UI
 
         public Registration()
         {
-            _userRepository = new GenericRepository<User>(new AppDbContext());  // Ініціалізація репозиторію без параметрів
-            _userRoleRepository = new GenericRepository<UserRole>(new AppDbContext());  // Ініціалізація репозиторію ролей
-            _dbContext = new AppDbContext();  // Ініціалізація контексту
+            _userRepository = new GenericRepository<User>(new AppDbContext());
+            _userRoleRepository = new GenericRepository<UserRole>(new AppDbContext());
+            _dbContext = new AppDbContext();
             InitializeComponent();
         }
 
@@ -29,28 +29,24 @@ namespace UI
             string confirmPassword = txtConfirmPassword.Text;
             string email = txtEmail.Text;
 
-            // Перевірка на заповненість полів
             if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password) || string.IsNullOrEmpty(confirmPassword) || string.IsNullOrEmpty(email))
             {
                 MessageBox.Show("Будь ласка, заповніть всі поля.");
                 return;
             }
 
-            // Перевірка паролів
             if (password != confirmPassword)
             {
                 MessageBox.Show("Паролі не співпадають.");
                 return;
             }
 
-            // Перевірка електронної пошти
             if (!email.Contains("@") || !email.Contains("."))
             {
                 MessageBox.Show("Будь ласка, введіть правильну електронну пошту.");
                 return;
             }
 
-            // Перевірка на існування користувача з таким логіном або email
             var existingUser = _userRepository.GetAll().FirstOrDefault(u => u.Username == username || u.Email == email);
             if (existingUser != null)
             {
@@ -58,7 +54,6 @@ namespace UI
                 return;
             }
 
-            // Отримуємо роль "User"
             var userRole = _userRoleRepository.GetAll().FirstOrDefault(r => r.RoleName == "User");
             if (userRole == null)
             {
@@ -66,23 +61,20 @@ namespace UI
                 return;
             }
 
-            // Створення нового користувача
             var newUser = new User
             {
                 Username = username,
-                PasswordHash = password, // Зберігаємо пароль у відкритому вигляді (для тестування)
+                PasswordHash = password,
                 Email = email,
-                RoleID = userRole.RoleID, // Встановлюємо RoleID для користувача
-                IsAdmin = false // Вказуємо, що це не адмін
+                RoleID = userRole.RoleID,
+                IsAdmin = false
             };
 
-            // Додавання нового користувача
             _userRepository.Add(newUser);
-            _dbContext.SaveChanges(); // Збереження змін через контекст
+            _dbContext.SaveChanges();
 
             MessageBox.Show("Реєстрація успішна!");
 
-            // Перехід до форми логіну
             Login loginForm = new Login();
             loginForm.Show();
             this.Hide();
@@ -90,7 +82,6 @@ namespace UI
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
-            // Повернення до форми логіну
             Login loginForm = new Login();
             loginForm.Show();
             this.Hide();

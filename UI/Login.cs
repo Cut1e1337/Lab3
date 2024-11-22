@@ -11,10 +11,11 @@ namespace UI
     public partial class Login : Form
     {
         private readonly IGenericRepository<User> _userRepository;
+        public static User LoggedInUser { get; private set; } // Статична властивість для зберігання авторизованого користувача
 
         public Login()
         {
-            _userRepository = new GenericRepository<User>(new AppDbContext());  // Ініціалізація репозиторію без параметрів
+            _userRepository = new GenericRepository<User>(new AppDbContext());
             InitializeComponent();
         }
 
@@ -29,14 +30,14 @@ namespace UI
             string username = txtUsername.Text;
             string password = txtPassword.Text;
 
-            // Перевірка логіна і пароля
             var user = _userRepository.GetAll().FirstOrDefault(u => u.Username == username && u.PasswordHash == password);
 
             if (user != null)
             {
+                LoggedInUser = user; // Зберігаємо авторизованого користувача в статичну властивість
                 MessageBox.Show("Вхід успішний!");
-                Form1 form1 = new Form1();
-                form1.ShowDialog();
+                Form1 mainForm = new Form1();
+                mainForm.ShowDialog();
             }
             else
             {

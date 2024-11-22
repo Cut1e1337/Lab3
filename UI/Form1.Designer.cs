@@ -28,12 +28,45 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Text = "Form1";
+            btnAdmin = new Button();
+            btnCustomer = new Button();
+            SuspendLayout();
+            // 
+            // btnAdmin
+            // 
+            btnAdmin.Location = new Point(694, 409);
+            btnAdmin.Name = "btnAdmin";
+            btnAdmin.Size = new Size(94, 29);
+            btnAdmin.TabIndex = 0;
+            btnAdmin.Text = "button1";
+            btnAdmin.UseVisualStyleBackColor = true;
+            btnAdmin.Click += btnAdmin_Click;
+            // 
+            // btnCustomer
+            // 
+            btnCustomer.Location = new Point(319, 166);
+            btnCustomer.Name = "btnCustomer";
+            btnCustomer.Size = new Size(142, 77);
+            btnCustomer.TabIndex = 2;
+            btnCustomer.Text = "button3";
+            btnCustomer.UseVisualStyleBackColor = true;
+            btnCustomer.Click += btnCustomer_Click;
+            // 
+            // Form1
+            // 
+            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(800, 450);
+            Controls.Add(btnCustomer);
+            Controls.Add(btnAdmin);
+            Name = "Form1";
+            Text = "Form1";
+            ResumeLayout(false);
         }
 
         #endregion
+
+        private Button btnAdmin;
+        private Button btnCustomer;
     }
 }
