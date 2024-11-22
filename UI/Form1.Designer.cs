@@ -38,7 +38,7 @@
             btnAdmin.Name = "btnAdmin";
             btnAdmin.Size = new Size(94, 29);
             btnAdmin.TabIndex = 0;
-            btnAdmin.Text = "button1";
+            btnAdmin.Text = "Admin";
             btnAdmin.UseVisualStyleBackColor = true;
             btnAdmin.Click += btnAdmin_Click;
             // 
@@ -48,7 +48,7 @@
             btnCustomer.Name = "btnCustomer";
             btnCustomer.Size = new Size(142, 77);
             btnCustomer.TabIndex = 2;
-            btnCustomer.Text = "button3";
+            btnCustomer.Text = "Customer";
             btnCustomer.UseVisualStyleBackColor = true;
             btnCustomer.Click += btnCustomer_Click;
             // 

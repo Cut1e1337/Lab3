@@ -23,8 +23,8 @@ namespace UI
 
         private void btnCustomer_Click(object sender, EventArgs e)
         {
-            // Логіка для звичайного користувача
-            MessageBox.Show("Ви увійшли як звичайний користувач.");
+            Customer customer = new Customer();
+            customer.ShowDialog();
         }
 
         private void btnAdmin_Click(object sender, EventArgs e)
