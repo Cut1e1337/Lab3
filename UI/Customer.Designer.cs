@@ -29,13 +29,16 @@
         private void InitializeComponent()
         {
             txtSearchName = new TextBox();
-            cmbSearchCategory = new ComboBox();
             txtBalance = new TextBox();
             lblBalance = new Label();
             btnSearch = new Button();
             btnSetBalance = new Button();
             dgvApplications = new DataGridView();
             btnPurchaseApp = new Button();
+            cmbCustomerContentRating = new ComboBox();
+            cmbCustomerAppType = new ComboBox();
+            cmbCustomerGenre = new ComboBox();
+            cmbCustomerCategory = new ComboBox();
             ((System.ComponentModel.ISupportInitialize)dgvApplications).BeginInit();
             SuspendLayout();
             // 
@@ -45,14 +48,6 @@
             txtSearchName.Name = "txtSearchName";
             txtSearchName.Size = new Size(125, 27);
             txtSearchName.TabIndex = 0;
-            // 
-            // cmbSearchCategory
-            // 
-            cmbSearchCategory.FormattingEnabled = true;
-            cmbSearchCategory.Location = new Point(159, 244);
-            cmbSearchCategory.Name = "cmbSearchCategory";
-            cmbSearchCategory.Size = new Size(151, 28);
-            cmbSearchCategory.TabIndex = 1;
             // 
             // txtBalance
             // 
@@ -72,7 +67,7 @@
             // 
             // btnSearch
             // 
-            btnSearch.Location = new Point(343, 244);
+            btnSearch.Location = new Point(343, 243);
             btnSearch.Name = "btnSearch";
             btnSearch.Size = new Size(94, 29);
             btnSearch.TabIndex = 4;
@@ -109,18 +104,53 @@
             btnPurchaseApp.UseVisualStyleBackColor = true;
             btnPurchaseApp.Click += btnPurchaseApp_Click;
             // 
+            // cmbCustomerContentRating
+            // 
+            cmbCustomerContentRating.FormattingEnabled = true;
+            cmbCustomerContentRating.Location = new Point(317, 309);
+            cmbCustomerContentRating.Name = "cmbCustomerContentRating";
+            cmbCustomerContentRating.Size = new Size(151, 28);
+            cmbCustomerContentRating.TabIndex = 8;
+            // 
+            // cmbCustomerAppType
+            // 
+            cmbCustomerAppType.FormattingEnabled = true;
+            cmbCustomerAppType.Location = new Point(317, 365);
+            cmbCustomerAppType.Name = "cmbCustomerAppType";
+            cmbCustomerAppType.Size = new Size(151, 28);
+            cmbCustomerAppType.TabIndex = 9;
+            // 
+            // cmbCustomerGenre
+            // 
+            cmbCustomerGenre.FormattingEnabled = true;
+            cmbCustomerGenre.Location = new Point(129, 365);
+            cmbCustomerGenre.Name = "cmbCustomerGenre";
+            cmbCustomerGenre.Size = new Size(151, 28);
+            cmbCustomerGenre.TabIndex = 10;
+            // 
+            // cmbCustomerCategory
+            // 
+            cmbCustomerCategory.FormattingEnabled = true;
+            cmbCustomerCategory.Location = new Point(129, 309);
+            cmbCustomerCategory.Name = "cmbCustomerCategory";
+            cmbCustomerCategory.Size = new Size(151, 28);
+            cmbCustomerCategory.TabIndex = 11;
+            // 
             // Customer
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(cmbCustomerCategory);
+            Controls.Add(cmbCustomerGenre);
+            Controls.Add(cmbCustomerAppType);
+            Controls.Add(cmbCustomerContentRating);
             Controls.Add(btnPurchaseApp);
             Controls.Add(dgvApplications);
             Controls.Add(btnSetBalance);
             Controls.Add(btnSearch);
             Controls.Add(lblBalance);
             Controls.Add(txtBalance);
-            Controls.Add(cmbSearchCategory);
             Controls.Add(txtSearchName);
             Name = "Customer";
             Text = "Customer";
@@ -132,12 +162,15 @@
         #endregion
 
         private TextBox txtSearchName;
-        private ComboBox cmbSearchCategory;
         private TextBox txtBalance;
         private Label lblBalance;
         private Button btnSearch;
         private Button btnSetBalance;
         private DataGridView dgvApplications;
         private Button btnPurchaseApp;
+        private ComboBox cmbCustomerContentRating;
+        private ComboBox cmbCustomerAppType;
+        private ComboBox cmbCustomerGenre;
+        private ComboBox cmbCustomerCategory;
     }
 }

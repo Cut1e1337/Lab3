@@ -18,5 +18,8 @@ namespace Core.Models
         public ICollection<Installation> Installations { get; set; }
         public ICollection<Pricing> Pricings { get; set; }
         public ICollection<AppGenre> AppGenres { get; set; }
+
+        public ICollection<AppType> AppTypes { get; set; }
+        public ICollection<Genre> Genres { get; set; }
     }
 }

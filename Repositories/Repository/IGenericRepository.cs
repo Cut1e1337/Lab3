@@ -13,6 +13,8 @@ namespace Repositories.Repository
         void Delete(int id);
         T Get(int id);
         IEnumerable<T> GetAll();
+
+        IQueryable<T> GetAllWithIncludes(params string[] includes);
     }
 
 }

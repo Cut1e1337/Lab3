@@ -23,9 +23,17 @@ namespace UI
 
         private void btnCustomer_Click(object sender, EventArgs e)
         {
-            Customer customer = new Customer();
-            customer.ShowDialog();
+            try
+            {
+                Customer customer = new Customer();
+                customer.ShowDialog();
+            }
+            catch (NullReferenceException ex)
+            {
+                MessageBox.Show($"Помилка: {ex.Message}\n\n{ex.StackTrace}", "Помилка ініціалізації", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
+
 
         private void btnAdmin_Click(object sender, EventArgs e)
         {

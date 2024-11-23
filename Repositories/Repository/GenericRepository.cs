@@ -1,4 +1,5 @@
 ﻿using lab3.Repositories.Data;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -47,6 +48,22 @@ namespace Repositories.Repository
         {
             return _context.Set<T>().ToList();
         }
+
+        public IQueryable<T> GetAllWithIncludes(params string[] includes)
+        {
+            IQueryable<T> query = _context.Set<T>();
+
+            // Для кожного рядка в масиві includes виконуємо Include
+            foreach (var include in includes)
+            {
+                query = query.Include(include);
+            }
+
+            return query;
+        }
+
+
+
     }
 
 }
