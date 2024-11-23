@@ -3,7 +3,6 @@ using System;
 using System.Linq;
 using System.Windows.Forms;
 using Core.Models;
-using Repositories;
 using lab3.Repositories.Data;
 using Repositories.Repository;
 
@@ -25,7 +24,6 @@ namespace UI
 
         private void InitializeForm()
         {
-            // Ініціалізація компонентів форми
             LoadCategories();
             userBalance = 0.00m;
             lblBalance.Text = $"Баланс: {userBalance:C}";
@@ -35,35 +33,35 @@ namespace UI
 
         private void LoadCategories()
         {
-            // Завантажуємо всі категорії з бази даних у ComboBox
             var categories = _categoryRepository.GetAll().ToList();
             cmbSearchCategory.DataSource = categories;
             cmbSearchCategory.DisplayMember = "CategoryName";
             cmbSearchCategory.ValueMember = "CategoryID";
 
-            // Додаємо пункт для всіх категорій
             cmbSearchCategory.Items.Insert(0, new Category { CategoryID = 0, CategoryName = "Усі категорії" });
             cmbSearchCategory.SelectedIndex = 0;
         }
 
         private void LoadApplications(string searchName = "", int? categoryId = null)
         {
-            // Завантажуємо програми на основі фільтрів
-            var applicationsQuery = _appRepository.GetAll();
+            var dbContext = new AppDbContext();
 
-            // Фільтр по назві
+            var applicationsQuery = dbContext.Applications
+                .Include(a => a.Pricings)
+                .Include(a => a.Category)
+                .Include(a => a.ContentRating)
+                .AsQueryable();
+
             if (!string.IsNullOrEmpty(searchName))
             {
                 applicationsQuery = applicationsQuery.Where(a => a.Name.Contains(searchName));
             }
 
-            // Фільтр по категорії
             if (categoryId.HasValue && categoryId > 0)
             {
                 applicationsQuery = applicationsQuery.Where(a => a.CategoryID == categoryId);
             }
 
-            // Завантаження відфільтрованих даних
             var applications = applicationsQuery
                 .Select(a => new
                 {
@@ -74,7 +72,7 @@ namespace UI
                     a.LastUpdate,
                     a.CurrentVersion,
                     a.MinAndroidVersion,
-                    Price = a.Pricing.Any() ? a.Pricing.First().Price : 0
+                    Price = a.Pricings.FirstOrDefault() == null ? 0 : a.Pricings.FirstOrDefault().Price
                 }).ToList();
 
             dgvApplications.DataSource = applications;
@@ -82,11 +80,9 @@ namespace UI
 
         private void btnSearch_Click(object sender, EventArgs e)
         {
-            // Виконуємо пошук
             var searchName = txtSearchName.Text;
             var selectedCategoryId = (cmbSearchCategory.SelectedItem as Category)?.CategoryID;
 
-            // Якщо обрана категорія "Усі категорії", встановлюємо categoryId як null
             if (selectedCategoryId == 0)
             {
                 selectedCategoryId = null;
@@ -97,7 +93,6 @@ namespace UI
 
         private void btnSetBalance_Click(object sender, EventArgs e)
         {
-            // Встановлюємо баланс користувача
             if (decimal.TryParse(txtBalance.Text, out decimal newBalance))
             {
                 userBalance = newBalance;
@@ -105,40 +100,30 @@ namespace UI
             }
             else
             {
-                MessageBox.Show("Введіть правильний баланс.");
+                MessageBox.Show("Введіть правильну суму!", "Помилка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
         private void btnPurchaseApp_Click(object sender, EventArgs e)
         {
-            // Виконуємо покупку обраної програми
-            if (dgvApplications.SelectedRows.Count == 0)
+            if (dgvApplications.SelectedRows.Count > 0)
             {
-                MessageBox.Show("Будь ласка, виберіть програму для покупки.");
-                return;
-            }
+                var selectedApp = dgvApplications.SelectedRows[0].DataBoundItem as dynamic;
 
-            var selectedAppId = (int)dgvApplications.SelectedRows[0].Cells["ApplicationID"].Value;
-            var selectedApp = _appRepository.GetAll().FirstOrDefault(a => a.ApplicationID == selectedAppId);
-
-            if (selectedApp != null && selectedApp.Pricing.Any())
-            {
-                var price = selectedApp.Pricing.First().Price;
-
-                if (userBalance >= price)
+                if (selectedApp != null)
                 {
-                    userBalance -= price;
-                    lblBalance.Text = $"Баланс: {userBalance:C}";
-                    MessageBox.Show("Програму успішно куплено!");
+                    var price = selectedApp.Price;
+                    if (userBalance >= price)
+                    {
+                        userBalance -= price;
+                        lblBalance.Text = $"Баланс: {userBalance:C}";
+                        MessageBox.Show($"Ви успішно придбали програму {selectedApp.Name}!", "Успіх", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Недостатньо коштів для покупки цієї програми.", "Помилка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
                 }
-                else
-                {
-                    MessageBox.Show("Недостатньо коштів для покупки цієї програми.");
-                }
-            }
-            else
-            {
-                MessageBox.Show("Ця програма є безкоштовною або не знайдено даних про ціну.");
             }
         }
     }
