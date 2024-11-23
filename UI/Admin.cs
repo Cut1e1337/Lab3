@@ -191,5 +191,10 @@ namespace UI
                 MessageBox.Show("Програму успішно видалено!");
             }
         }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
