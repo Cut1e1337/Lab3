@@ -16,6 +16,8 @@ namespace lab3.Repositories.Data
         public DbSet<AppGenre> AppGenres { get; set; }
         public DbSet<UserRole> UserRoles { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<UserPurchase> UserPurchases { get; set; }
+        public DbSet<Session> Sessions { get; set; }  // Додано DbSet для класу Session
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -176,6 +178,34 @@ namespace lab3.Repositories.Data
                 .HasOne(u => u.Role)
                 .WithMany(ur => ur.Users)
                 .HasForeignKey(u => u.RoleID);
+
+            // UserPurchases
+            modelBuilder.Entity<UserPurchase>()
+                .HasKey(up => up.UserPurchaseID);
+
+            modelBuilder.Entity<UserPurchase>()
+                .Property(up => up.UserLogin)
+                .IsRequired()
+                .HasMaxLength(100);
+
+            modelBuilder.Entity<UserPurchase>()
+                .HasOne(up => up.Application)
+                .WithMany()
+                .HasForeignKey(up => up.ApplicationID);
+
+            // Define relationships for UserPurchase and User
+            modelBuilder.Entity<UserPurchase>()
+                .HasOne(up => up.User) // UserPurchase має один User
+                .WithMany(u => u.UserPurchases) // User може мати багато UserPurchases
+                .HasForeignKey(up => up.UserLogin) // ключ зв'язку
+                .IsRequired();
+
+            // Define relationships for UserPurchase and Application
+            modelBuilder.Entity<UserPurchase>()
+                .HasOne(up => up.Application) // UserPurchase має один Application
+                .WithMany(a => a.UserPurchases) // Application може мати багато UserPurchases
+                .HasForeignKey(up => up.ApplicationID) // ключ зв'язку
+                .IsRequired();
 
             base.OnModelCreating(modelBuilder);
         }

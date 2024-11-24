@@ -170,8 +170,36 @@ namespace UI
                     var price = selectedApp.Price;
                     if (userBalance >= price)
                     {
+                        // Віднімаємо суму покупки від балансу користувача
                         userBalance -= price;
                         lblBalance.Text = $"Баланс: {userBalance:C}";
+
+                        // Збереження покупки в базі даних
+                        string userLogin = txtUserLogin.Text; // Припускаємо, що є текстбокс для введення логіну користувача
+                        using (var context = new AppDbContext())
+                        {
+                            // Знаходимо користувача по логіну
+                            var user = context.Users.FirstOrDefault(u => u.Username == userLogin);
+                            if (user != null)
+                            {
+                                // Створюємо запис у таблиці UserPurchases
+                                var userPurchase = new UserPurchase
+                                {
+                                    UserID = user.UserID,
+                                    ApplicationID = selectedApp.ApplicationID // Має бути ID програми
+                                };
+
+                                // Додаємо покупку і зберігаємо зміни
+                                context.UserPurchases.Add(userPurchase);
+                                context.SaveChanges();
+                            }
+                            else
+                            {
+                                MessageBox.Show("Користувача не знайдено.", "Помилка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            }
+                        }
+
+                        // Повідомлення про успіх покупки
                         MessageBox.Show($"Ви успішно придбали програму {selectedApp.Name}!", "Успіх", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                     else
@@ -181,5 +209,6 @@ namespace UI
                 }
             }
         }
+
     }
 }

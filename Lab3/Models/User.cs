@@ -15,5 +15,7 @@ namespace Core.Models
         public int RoleID { get; set; }
         public UserRole Role { get; set; }
         public bool IsAdmin { get; set; }
+
+        public ICollection<UserPurchase> UserPurchases { get; set; }
     }
 }

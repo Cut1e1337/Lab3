@@ -40,5 +40,11 @@ namespace UI
             Admin adminForm = new Admin();
             adminForm.ShowDialog();
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            Report report = new Report();
+            report.ShowDialog();
+        }
     }
 }

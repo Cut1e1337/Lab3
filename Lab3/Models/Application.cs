@@ -21,5 +21,7 @@ namespace Core.Models
 
         public ICollection<AppType> AppTypes { get; set; }
         public ICollection<Genre> Genres { get; set; }
+
+        public ICollection<UserPurchase> UserPurchases { get; set; }
     }
 }
