@@ -43,40 +43,44 @@ namespace UI
         private void LoadCategories()
         {
             var categories = _categoryRepository.GetAll().ToList();
+            categories.Insert(0, new Category { CategoryID = 0, CategoryName = "Усі категорії" });
+
             cmbCustomerCategory.DataSource = categories;
             cmbCustomerCategory.DisplayMember = "CategoryName";
             cmbCustomerCategory.ValueMember = "CategoryID";
-            cmbCustomerCategory.Items.Insert(0, new Category { CategoryID = 0, CategoryName = "Усі категорії" });
             cmbCustomerCategory.SelectedIndex = 0;
         }
 
         private void LoadContentRatings()
         {
             var contentRatings = _contentRatingRepository.GetAll().ToList();
+            contentRatings.Insert(0, new ContentRating { ContentRatingID = 0, RatingName = "Усі рейтинги" });
+
             cmbCustomerContentRating.DataSource = contentRatings;
             cmbCustomerContentRating.DisplayMember = "RatingName";
             cmbCustomerContentRating.ValueMember = "ContentRatingID";
-            cmbCustomerContentRating.Items.Insert(0, new ContentRating { ContentRatingID = 0, RatingName = "Усі рейтинги" });
             cmbCustomerContentRating.SelectedIndex = 0;
         }
 
         private void LoadGenres()
         {
             var genres = _genreRepository.GetAll().ToList();
+            genres.Insert(0, new Genre { GenreID = 0, GenreName = "Усі жанри" });
+
             cmbCustomerGenre.DataSource = genres;
             cmbCustomerGenre.DisplayMember = "GenreName";
             cmbCustomerGenre.ValueMember = "GenreID";
-            cmbCustomerGenre.Items.Insert(0, new Genre { GenreID = 0, GenreName = "Усі жанри" });
             cmbCustomerGenre.SelectedIndex = 0;
         }
 
         private void LoadAppTypes()
         {
             var appTypes = _appTypeRepository.GetAll().ToList();
+            appTypes.Insert(0, new AppType { TypeID = 0, TypeName = "Усі типи" });
+
             cmbCustomerAppType.DataSource = appTypes;
             cmbCustomerAppType.DisplayMember = "TypeName";
             cmbCustomerAppType.ValueMember = "TypeID";
-            cmbCustomerAppType.Items.Insert(0, new AppType { TypeID = 0, TypeName = "Усі типи" });
             cmbCustomerAppType.SelectedIndex = 0;
         }
 
